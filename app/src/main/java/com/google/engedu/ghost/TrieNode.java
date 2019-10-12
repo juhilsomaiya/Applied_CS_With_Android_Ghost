@@ -33,35 +33,35 @@ public class TrieNode {
     }
 
     public void add(String s) {
-        //Log.d("Add",""+s);
         TrieNode currentNode = this;
-        String tempString ="";
-        for(int i=0;i<s.length();i++)
+        String tempString = "";
+        for (int i = 0; i < s.length(); i++)
         {
             tempString += s.charAt(i);
-            if(!currentNode.children.containsKey(tempString))
+            if (!currentNode.children.containsKey(tempString))
             {
                 TrieNode newNode = new TrieNode();
-                currentNode.children.put(tempString,newNode);
+                currentNode.children.put(tempString, newNode);
             }
             else
             {
                 //Keep going deep
             }
-            currentNode=currentNode.children.get(tempString);
+            currentNode = currentNode.children.get(tempString);
         }
-        currentNode.isWord=true;
+        currentNode.isWord = true;
     }
 
     public boolean isWord(String s) {
         TrieNode currentNode = this;
-        String tempString ="";
-        for(int i=0;i<s.length();i++)
+        String tempString = "";
+
+        for (int i = 0; i < s.length(); i++)
         {
             tempString += s.charAt(i);
-            if(!currentNode.children.containsKey(tempString))
+            if (!currentNode.children.containsKey(tempString))
                 return false;
-            currentNode=currentNode.children.get(tempString);
+            currentNode = currentNode.children.get(tempString);
             if (currentNode.isWord && tempString.length() == s.length())
                 return true;
         }
@@ -74,32 +74,30 @@ public class TrieNode {
         String tempString = "";
         Random random = new Random();
 
-        if(s=="")//when computer starts first, spoon-feeding a letter to start with
+        if (s == "")//when computer starts first, spoon-feeding a letter to start with
         {
             int charind = random.nextInt(26);
-            s+=(char)(97+charind);
+            s += (char) (97 + charind);
         }
-        for(int i=0;i<s.length();i++)
+        for (int i = 0; i < s.length(); i++)
         {
             tempString += s.charAt(i);
-            if(!currentNode.children.containsKey(tempString))
+            if (!currentNode.children.containsKey(tempString))
                 return null;
             currentNode = currentNode.children.get(tempString);
         }
-        while(!currentNode.isWord)
+        while (!currentNode.isWord)
         {
             String orginalTS = tempString;
             ArrayList<Integer> index = new ArrayList<>();
-            for(int i=0;i<26;i++)
+            for(int i = 0; i < 26; i++)
                 index.add(i);
             int randind = random.nextInt(index.size());
             int charind = index.get(randind);
-            tempString += (char)(97+charind);
-            if(currentNode.children.containsKey(tempString))
-            {
+            tempString += (char) (97 + charind);
+            if (currentNode.children.containsKey(tempString)) {
                 currentNode = currentNode.children.get(tempString);
-            }
-            else {
+            } else {
                 tempString = orginalTS;
                 index.remove(randind);
             }
@@ -111,40 +109,40 @@ public class TrieNode {
         TrieNode currentNode = this;
         String tempString = "";
         Random random = new Random();
-        if(s=="")//when computer starts first, spoon-feeding a letter to start with
+        if (s == "")  //when computer starts first, spoon-feeding a letter to start with
         {
             int charind = random.nextInt(26);
-            s+=(char)(97+charind);
+            s += (char) (97 + charind);
         }
-        Log.d("PRefix",""+s);
-        for(int i=0;i<s.length();i++)
+        Log.d("PRefix", "" + s);
+        for (int i = 0; i < s.length(); i++)
         {
             tempString += s.charAt(i);
-            Log.d("currentNodeChildren"+tempString,""+currentNode.children.keySet().toString());
+            Log.d("currentNodeChildren" + tempString, "" + currentNode.children.keySet().toString());
             if(!currentNode.children.containsKey(tempString))
                 return null;
             currentNode = currentNode.children.get(tempString);
         }
         ArrayList<String> childrenList = new ArrayList<>(currentNode.children.keySet());
         ArrayList<String> notWordChildren = new ArrayList<>();
-        Log.d("ChildrenList",""+childrenList);
-        for(int i=0;i<childrenList.size();i++)
+        Log.d("ChildrenList", "" + childrenList);
+        for(int i = 0; i < childrenList.size(); i++)
         {
             TrieNode tempNode = new TrieNode();
-            tempNode=currentNode.children.get(childrenList.get(i));
-            if(!tempNode.isWord)
+            tempNode = currentNode.children.get(childrenList.get(i));
+            if (!tempNode.isWord)
             {
                 notWordChildren.add(childrenList.get(i));
             }
         }
-        if(notWordChildren.isEmpty())
+        if (notWordChildren.isEmpty())
         {
-            Log.d("empty","notword");
+            Log.d("empty", "notword");
             return childrenList.get(random.nextInt(childrenList.size()));
         }
         else
         {
-            Log.d("randompick","notword");
+            Log.d("randompick", "notword");
             return notWordChildren.get(random.nextInt(notWordChildren.size()));
         }
 
